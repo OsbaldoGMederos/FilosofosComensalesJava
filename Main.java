@@ -1,7 +1,10 @@
+
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 public class Main{
+
     public static void main(String[] args) {
         Tenedor[] tenedores = new Tenedor[5];
         Filosofo[] filosofos = new Filosofo[5];
@@ -10,11 +13,11 @@ public class Main{
             tenedores[i] = new Tenedor();
         }
 
-        filosofos[0] = new Filosofo("Marco", tenedores[0], tenedores[1]);
-        filosofos[1] = new Filosofo("Osbaldo",tenedores[1], tenedores[2]);
-        filosofos[2] = new Filosofo("Maribel",tenedores[2], tenedores[3]);
-        filosofos[3] = new Filosofo("Sunny", tenedores[3], tenedores[4]);
-        filosofos[4] = new Filosofo("Desiree", tenedores[4], tenedores[0]);
+        filosofos[0] = new Filosofo("Marco", tenedores[0], tenedores[1], ColorHilo.RED);
+        filosofos[1] = new Filosofo("Osbaldo",tenedores[1], tenedores[2], ColorHilo.GREEN);
+        filosofos[2] = new Filosofo("Maribel",tenedores[2], tenedores[3], ColorHilo.CYAN);
+        filosofos[3] = new Filosofo("Sunny", tenedores[3], tenedores[4], ColorHilo.PURPLE);
+        filosofos[4] = new Filosofo("Desiree", tenedores[4], tenedores[0], ColorHilo.YELLOW);
 
         (new Thread(filosofos[0])).start();
         (new Thread(filosofos[1])).start();
@@ -33,14 +36,16 @@ class Filosofo implements Runnable {
     private final String nombre;
     private Tenedor i;
     private Tenedor d;
+	private String color;
 
     private int contador;
 
-    public Filosofo(String nombre, Tenedor i, Tenedor d){
+    public Filosofo(String nombre, Tenedor i, Tenedor d, String color){
 
         this.nombre = nombre;
         this.i = i;
         this.d = d;
+		this.color = color;
 
         contador = 0;
     }
@@ -52,10 +57,10 @@ class Filosofo implements Runnable {
             i.m.lock();
             d.m.lock();
             try{
-                System.out.println("El filosofo " + nombre + " comenzo a comer " + Thread.currentThread().getName() );
+                System.out.println(color + "El filosofo " + nombre + " comenzo a comer " + Thread.currentThread().getName() );
                 Thread.sleep(random.nextInt(2000));
                 contador++;
-                System.out.println("El filosofo " +  nombre + " terminó de comer " +  contador +  " veces");
+                System.out.println(color + "El filosofo " +  nombre + " terminó de comer " +  contador +  " veces");
             }finally {
                 i.m.unlock();
                 d.m.unlock();
@@ -69,10 +74,10 @@ class Filosofo implements Runnable {
     public void pensar(){
         Random random = new Random();
         try{
-            System.out.println("El filosofo " + nombre + " se puso a pensar");
+            System.out.println(color + "El filosofo " + nombre + " se puso a pensar");
             Thread.sleep(random.nextInt(2500));
         }catch (InterruptedException e){
-            System.out.println("El filosofo " + nombre + " fue interrumpido mientras pensaba");
+            System.out.println(color + "El filosofo " + nombre + " fue interrumpido mientras pensaba");
         }
     }
 
@@ -83,8 +88,9 @@ class Filosofo implements Runnable {
             pensar();
         }
 
-        System.out.println(nombre + " se fue a dormir");
+        System.out.println(color + nombre + " se fue a dormir");
     }
 
 
 }
+
