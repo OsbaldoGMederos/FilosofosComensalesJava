@@ -45,9 +45,6 @@ class Filosofo implements Runnable {
         contador = 0;
     }
 
-    public String getNombre(){
-        return nombre;
-    }
 
     public void comer(){
         Random random = new Random();
@@ -55,7 +52,7 @@ class Filosofo implements Runnable {
             i.m.lock();
             d.m.lock();
             try{
-                System.out.println("El filosofo " + getNombre() + " comenzo a comer " + Thread.currentThread().getName() );
+                System.out.println("El filosofo " + nombre + " comenzo a comer " + Thread.currentThread().getName() );
                 Thread.sleep(random.nextInt(2000));
                 contador++;
                 System.out.println("El filosofo " +  nombre + " terminó de comer " +  contador +  " veces");
@@ -72,10 +69,10 @@ class Filosofo implements Runnable {
     public void pensar(){
         Random random = new Random();
         try{
-            System.out.println("El filosofo " + getNombre() + " se puso a pensar");
+            System.out.println("El filosofo " + nombre + " se puso a pensar");
             Thread.sleep(random.nextInt(2500));
         }catch (InterruptedException e){
-            System.out.println("El filosofo " + getNombre() + " fue interrumpido mientras pensaba");
+            System.out.println("El filosofo " + nombre + " fue interrumpido mientras pensaba");
         }
     }
 
